@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "deputato": {
+            "type": "string",
+            "description": "il cognome e inziale nome quando presente del deputato,"
+          },
+          "presenze": {
+            "type": "string",
+            "description": "il numero di presenze"
+          },
+          "congedi_missioni": {
+            "type": "string",
+            "description": "il numero di mssioni"
+          },
+          "assenze": {
+            "type": "string",
+            "description": "il numero di assenze"
+          },
+          "periodo": {
+            "type": "string",
+            "description": "il periodo di riferimento in ISO 8601 . Convertilo però in un array json YYYY-MM inizio, YYYY-MM fine, da aprile - giugno 2024 a 2024-04,2024-06. Scrivi sempre sia inizio che fine. QUindi ad esempio se GENNAIO - MARZO 2024, scrivi 2024-01,2024-03"
+          }
+        },
+        "required": [
+          "deputato",
+          "presenze",
+          "congedi_missioni",
+          "assenze",
+          "periodo"
+        ]
+      }
+    }
+  },
+  "required": [
+    "items"
+  ]
+}
