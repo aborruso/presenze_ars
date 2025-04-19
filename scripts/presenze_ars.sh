@@ -39,6 +39,8 @@ curl -kL "$URL" |
       echo "Scarico $decoded_pdf_name"
       # Salva la data odierna nel formato YYYYMMDD
       data_download=$(date +"%Y%m%d")
+      # Scarica il PDF
+      curl -kL "$pdf_url" -o "$pdf_path"
       # Aggiungi i metadati del PDF scaricato al file di anagrafica
       echo "{\"file\":\"${decoded_pdf_name}\",\"url_download\":\"${pdf_url}\",\"data_download\":\"${data_download}\"}" >>"${folder}"/../data/anagrafica_pdf.jsonl
     else
@@ -47,7 +49,7 @@ curl -kL "$URL" |
   done
 
 # Rimuove eventuali duplicati dal file di anagrafica
-mlr --jsonl uniq -a "${folder}"/../data/anagrafica_pdf.jsonl
+mlr -I --jsonl uniq -a "${folder}"/../data/anagrafica_pdf.jsonl
 
 # Processa i PDF scaricati ed estrae i dati di presenza
 for i in "${folder}"/../data/rawdata/*.pdf; do
