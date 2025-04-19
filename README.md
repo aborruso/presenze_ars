@@ -6,7 +6,7 @@ Questo repository contiene uno script per il monitoraggio automatico delle prese
 
 Lo script `scripts/presenze_ars.sh` si occupa di:
 
-1. Scaricare automaticamente i PDF delle presenze dalla sezione "Amministrazione Trasparente" del sito dell'ARS
+1. Scaricare automaticamente i PDF delle presenze dalla sezione "[Amministrazione Trasparente](https://www.ars.sicilia.it/amministrazione-trasparente/xviii/altri-contenuti)" del sito dell'ARS
 2. Tenere traccia dei file scaricati e dei loro metadati
 3. Processare i PDF per estrarne i dati in formato strutturato
 4. Unire e normalizzare i dati in un unico dataset
