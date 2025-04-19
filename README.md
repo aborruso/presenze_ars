@@ -16,9 +16,9 @@ Lo script `scripts/presenze_ars.sh` si occupa di:
 
 Lo script genera diversi file nella cartella `data/`:
 
-- `anagrafica_pdf.jsonl`: contiene i metadati dei PDF scaricati (nome file, URL, data di download)
-- `presenze_ars.jsonl`: dataset completo in formato JSON Lines
-- `presenze_ars.csv`: dataset completo in formato CSV
+- [`anagrafica_pdf.jsonl`](data/anagrafica_pdf.jsonl): contiene i metadati dei PDF scaricati (nome file, URL, data di download)
+- [`presenze_ars.jsonl`](data/presenze_ars.jsonl): dataset completo in formato JSON Lines
+- [`presenze_ars.csv`](data/presenze_ars.csv): dataset completo in formato CSV
 
 I dati grezzi e i PDF originali sono conservati nella cartella `data/rawdata/`.
 
