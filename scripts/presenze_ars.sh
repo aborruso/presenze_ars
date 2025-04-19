@@ -79,7 +79,7 @@ mlr -I --jsonl --from "${folder}"/tmp/merged.jsonl then rename deputato,componen
 
 # Unisce i dati elaborati con l'anagrafica dei PDF, riorganizza le colonne
 # e ordina il risultato per periodo e nome del componente
-mlr --jsonl join --ul -j file -f "${folder}"/tmp/merged.jsonl then unsparsify then sort -tr periodo_sort -f componente then reorder -f componente,presenze,assenze,congedi_missioni,periodo,componente_raw,periodo_sort,file,url_download,data_download "${folder}"/../data/anagrafica_pdf.jsonl >"${folder}"/tmp/tmp.jsonl
+mlr --jsonl join --ul -j file -f "${folder}"/tmp/merged.jsonl then unsparsify then sort -tr periodo_sort -f componente then reorder -f componente,presenze,assenze,congedi_missioni,periodo,componente_raw,periodo_sort,file,url_download,data_download then uniq -a "${folder}"/../data/anagrafica_pdf.jsonl >"${folder}"/tmp/tmp.jsonl
 
 # Salva il risultato finale in formato JSONL
 mv "${folder}"/tmp/tmp.jsonl "${folder}"/../data/presenze_ars.jsonl
