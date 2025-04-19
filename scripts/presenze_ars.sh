@@ -86,3 +86,6 @@ mv "${folder}"/tmp/tmp.jsonl "${folder}"/../data/presenze_ars.jsonl
 
 # Converte il risultato finale anche in formato CSV
 mlr --ijsonl --ocsv unsparsify "${folder}"/../data/presenze_ars.jsonl >"${folder}"/../data/presenze_ars.csv
+
+# Svuota la cartella tmp
+rm -rf "${folder}"/tmp/*
