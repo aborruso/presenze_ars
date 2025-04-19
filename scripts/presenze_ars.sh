@@ -41,7 +41,7 @@ curl -kL "$URL" |
     pdf_path="${folder}/../data/rawdata/${decoded_pdf_name}"
 
     # Scarica il PDF solo se non esiste già
-    if [ ! -f "$pdf_path"]; then
+    if [ ! -f "$pdf_path" ]; then
       echo "Scarico $decoded_pdf_name"
       data_download=$(date +"%Y%m%d")
       curl -kL "$pdf_url" -o "$pdf_path"
