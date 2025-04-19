@@ -1,47 +1,51 @@
 #!/bin/bash
 
-set -x
-set -e
-set -u
-set -o pipefail
+# Imposta opzioni di shell per una migliore gestione degli errori
+set -x  # Mostra i comandi mentre vengono eseguiti
+set -e  # Termina lo script se un comando fallisce
+set -u  # Termina se si usa una variabile non definita
+set -o pipefail  # La pipeline fallisce se fallisce uno dei comandi
 
+# Ottiene il percorso assoluto della directory dello script
 folder="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Crea le directory necessarie se non esistono
 mkdir -p "${folder}"/../data
 mkdir -p "${folder}"/../data/rawdata
 mkdir -p "${folder}"/tmp
 
-#scarica PDF
-
-# Define base URL for the Assembly website
+# URL della pagina contenente i PDF delle presenze
 URL="https://www.ars.sicilia.it/amministrazione-trasparente/xviii/altri-contenuti"
 
-# Verifica che il sito sia raggiungibile con timeout più lungo e gestione migliore
+# Verifica che il sito sia raggiungibile prima di procedere
 if ! curl -s --connect-timeout 30 --max-time 60 -I "$URL" | grep -q "HTTP/[1-2]"; then
   echo "ERRORE: Il sito $URL non è raggiungibile. Uscita."
   exit 1
 fi
 
-# Download the page, extract the links to presence PDFs and download each PDF
+# Pipeline di elaborazione:
+# 1. Scarica la pagina web
+# 2. Estrae la sezione contenente i link ai PDF
+# 3. Converte l'HTML in JSON e estrae gli URL
+# 4. Filtra solo i link che contengono "presenz" e terminano con "pdf"
 curl -kL "$URL" |
   scrape -be ".field-items" |
   xq -r '.html.body.div[].a."@href"' |
   grep -iP '.+presenz.+pdf' |
   while read -r line; do
+    # Costruisce l'URL completo del PDF
     pdf_url="https://www.ars.sicilia.it$line"
     pdf_name=$(basename "$pdf_url")
-    # Decodifica il nome del file per un controllo più affidabile
+    # Decodifica i caratteri speciali nell'URL
     decoded_pdf_name=$(printf '%b' "${pdf_name//%/\\x}")
     pdf_path="${folder}/../data/rawdata/${decoded_pdf_name}"
 
-    # Scarica solo se il file non esiste già
-    if [ ! -f "$pdf_path" ]; then
+    # Scarica il PDF solo se non esiste già
+    if [ ! -f "$pdf_path"]; then
       echo "Scarico $decoded_pdf_name"
-      # Salva la data odierna nel formato YYYYMMDD
       data_download=$(date +"%Y%m%d")
-      # Scarica il PDF
       curl -kL "$pdf_url" -o "$pdf_path"
-      # Aggiungi i metadati del PDF scaricato al file di anagrafica
+      # Registra i metadati del download
       echo "{\"file\":\"${decoded_pdf_name}\",\"url_download\":\"${pdf_url}\",\"data_download\":\"${data_download}\"}" >>"${folder}"/../data/anagrafica_pdf.jsonl
     else
       echo "Il file $decoded_pdf_name esiste già, salto il download"
