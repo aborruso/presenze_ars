@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Imposta opzioni di shell per una migliore gestione degli errori
-set -x  # Mostra i comandi mentre vengono eseguiti
+#set -x  # Mostra i comandi mentre vengono eseguiti
 set -e  # Termina lo script se un comando fallisce
 set -u  # Termina se si usa una variabile non definita
 set -o pipefail  # La pipeline fallisce se fallisce uno dei comandi
